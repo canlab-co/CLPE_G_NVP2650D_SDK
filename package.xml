@@ -4,10 +4,10 @@
   <name>clpe</name>
   <version>0.1.0</version>
   <description>clpe sdk</description>
-  <maintainer email="none@none.com">None</maintainer>
-  <!-- <license>Apache License 2.0</license> -->
-  <license>Unspecified</license>
-  <author>No one</author>
+  <license>Apache License 2.0</license>
+  <author>Can-lab Corporation</author>
+  <maintainer email="dwsun@can-lab.co.kr">Dongwoo Sun</maintainer>
+  <maintainer email="rlatae123@can-lab.co.kr">Taejung Kim</maintainer>
 
   <depend>sudo</depend>
   <depend>iputils-ping</depend>
