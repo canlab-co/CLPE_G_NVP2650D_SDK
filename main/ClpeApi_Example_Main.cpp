@@ -47,7 +47,7 @@ int Clpe_GetFrameExample(unsigned int inst, unsigned char* buffer, unsigned int 
 	return 0;
 }
   
-int main()
+int main() 
 {
 	int ret = 0;
 
