@@ -38,6 +38,8 @@
 #define CLPE_TEST_GET_FRAME_ALL_CAM		(CLPE_TEST_REQ_RESYNC_TIME+4)
 #define CLPE_TEST_MAX					(CLPE_TEST_GET_FRAME_ALL_CAM)
 
+//#define USE_NO_PASSWORD
+
 /** You can get frame by make custom function **/
 /** This function will be used start stream **/
 int Clpe_GetFrameExample(unsigned int inst, unsigned char* buffer, unsigned int size, struct timeval* camera_timeStamp)
@@ -62,19 +64,21 @@ int main()
 
 	printf("Initial network connection between PC and Xavier...\n");
 	printf("You must run this progress at the every first run for using clpe api function !!!\n\n");
-
+#ifndef USE_NO_PASSWORD
 	printf("Enter your sudo password : ");
 	scanf("%s", passwordBuff);
 	printf("\n");
 
 	password = passwordBuff;
-
+#endif
 	printf("Wait to initial the clpe network connection...\n");
 
 	/*** network connection between pc and xavier ***/
-
+#ifndef USE_NO_PASSWORD
 	ret = clpe_api.Clpe_Connection(password); 	     // input value is PC sudo password
-
+#else
+	ret = clpe_api.Clpe_Connection();
+#endif
 	/*********************************
 		< Error status >
 		  0 - no error

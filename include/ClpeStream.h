@@ -174,7 +174,7 @@ typedef struct _ProgramMain
 	xu32			dropped;
 	xu32			up_count;
 
-    xu32            ui32_use_camera_cnt = 0;
+    xu32            ui32_use_camera_cnt;
 
 } ProgramMain;
 

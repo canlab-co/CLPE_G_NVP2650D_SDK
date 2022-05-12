@@ -389,6 +389,167 @@ int ClpeClientApi::Clpe_Connection(string password)
 	return SUCCESSED;
 }
 
+int ClpeClientApi::Clpe_Connection()
+{
+	int ret = 0;
+	int cnt = 0;
+	int errConnect = 0;
+	//int masterCheckedPosition = 0;
+	int isAttachedSlave = 0;
+	//string cmdModule = "echo '" + password + "' | sudo -kS modprobe tegra_vnet > /dev/null 2>&1";
+	//string cmdNet1 = "echo '" + password + "' | sudo -kS sysctl -w net.ipv4.ip_forward=1 > /dev/null 2>&1";
+	//string cmdNet2 = "echo '" + password + "' | sudo -kS sysctl -w net.core.rmem_default=90000000 > /dev/null 2>&1";
+	//string cmdNet3 = "echo '" + password + "' | sudo -kS sysctl -w net.core.rmem_max=90000000 > /dev/null 2>&1";
+	//string cmdNet4 = "echo '" + password + "' | sudo -kS sysctl -w net.ipv4.udp_rmem_min=10000000 > /dev/null 2>&1";
+	//string cmdNet5 = "echo '" + password + "' | sudo -kS sysctl -w net.ipv4.udp_mem='90000000 90000000 90000000' > /dev/null 2>&1";
+	isAttachedSlave = 0; // only support 1 clpe.
+	m_isAttachedSlave = isAttachedSlave;
+	/** tegra_vnet module probe **/
+	//ret = system(cmdModule.c_str());
+	//if (ret != 0)
+	//{
+	//	return ERROR_CONNECT_DRIVER;
+	//}
+	//usleep(500000);
+	///* Check the connection for master */
+	//masterCheckedPosition = 0;
+	//ret = Clpe_CheckConnect(password, 0);
+	//if (ret != SUCCESSED)
+	//{
+	//	masterCheckedPosition = 1;
+	//	ret = Clpe_CheckConnect(password, 1);
+	//	if (ret != SUCCESSED)
+	//	{
+	//		return ret;
+	//	}
+	//}
+	//
+	//if (isAttachedSlave == 1)
+	//{
+	//	/* Check the connection for slave */
+	//	if (masterCheckedPosition == 0)
+	//	{
+	//		ret = Clpe_CheckConnect(password, 2);
+	//		if (ret != SUCCESSED)
+	//		{
+	//			return ret;
+	//		}
+	//	}
+	//	else
+	//	{
+	//		ret = Clpe_CheckConnect(password, 3);
+	//		if (ret != SUCCESSED)
+	//		{
+	//			return ret;
+	//		}
+	//	}
+	//}
+	cnt = 0;
+	int errPing = 0;
+	string cmdPing;
+	string xavierNxIpAddress;
+	xavierNxIpAddress = "192.168.7.7";
+	cmdPing = "ping -c 1 " + xavierNxIpAddress + " -W 1 > /dev/null 2>&1";
+	while (1)
+	{
+		/** ping **/
+		ret = system(cmdPing.c_str());
+		if (ret == 0)
+		{
+			errPing = 0;
+			cnt = 0;
+			break;
+		}
+		else
+		{
+			cnt++;
+		}
+		if (cnt > 3)
+		{
+			errPing = 1;
+			cnt = 0;
+			break;
+		}
+		sleep(1);
+	}
+	if (errPing)
+	{
+		return ERROR_CONNECT_PING;
+	}
+	if (!ClpeSocket::create(MCU_ID_MASTER))
+	{
+		return ERROR_CONNECT_CREATE;
+	}
+	//if (isAttachedSlave == 1)
+	//{
+	//	if (!ClpeSocket::create(MCU_ID_SLAVE))
+	//	{
+	//		return ERROR_CONNECT_CREATE;
+	//	}
+	//}
+	cnt = 0;
+	while (1)
+	{
+		/** socket connect **/
+		if (!ClpeSocket::connect(HOST_MASTER, PORT, MCU_ID_MASTER))
+		{
+			cnt++;
+		}
+		else
+		{
+			errConnect = 0;
+			cnt = 0;
+			break;
+		}
+		if (cnt > 3)
+		{
+			errConnect = 1;
+			cnt = 0;
+			break;
+		}
+		sleep(1);
+	}
+	if (errConnect)
+	{
+		return ERROR_CONNECT_CONNECT;
+	}
+	if (isAttachedSlave == 1)
+	{
+		while (1)
+		{
+			/** socket connect **/
+			if (!ClpeSocket::connect(HOST_SLAVE, PORT, MCU_ID_SLAVE))
+			{
+				cnt++;
+			}
+			else
+			{
+				errConnect = 0;
+				cnt = 0;
+				break;
+			}
+			if (cnt > 3)
+			{
+				errConnect = 1;
+				cnt = 0;
+				break;
+			}
+			sleep(1);
+		}
+		if (errConnect)
+		{
+			return ERROR_CONNECT_CONNECT;
+		}
+	}
+	///** network memory setting **/
+	//system(cmdNet1.c_str());
+	//system(cmdNet2.c_str());
+	//system(cmdNet3.c_str());
+	//system(cmdNet4.c_str());
+	//system(cmdNet5.c_str());
+	return SUCCESSED;
+}
+
 /********************************************************
 * Clpe_CheckChrony
 - Check the chrony time sync between PC and Xavier

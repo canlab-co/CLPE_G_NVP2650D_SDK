@@ -67,6 +67,7 @@ public:
     
 	//---------------- clpe api func to use -------------------//
 	int Clpe_Connection(string password);
+	int Clpe_Connection();
 
 	int Clpe_CheckPci();
 	int Clpe_CheckNetwork();
@@ -95,7 +96,7 @@ private:
 	int Clpe_StartCam(char use_cam_0, char use_cam_1, char use_cam_2, char use_cam_3, int mcu_id);
 	int Clpe_StopCam();
     int Clpe_CheckConnect(string password, int settingValue);
-    int m_isAttachedSlave = 0;;
+    int m_isAttachedSlave;
 };
 
 #endif
