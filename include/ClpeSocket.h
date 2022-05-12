@@ -29,6 +29,8 @@
 #include <string>
 #include <arpa/inet.h>
 #include <iostream>
+#include <stdlib.h>
+#include <stdio.h>
 
 #define SOCKET_CLIENT
   
