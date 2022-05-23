@@ -3,7 +3,7 @@
 ## How to use canlab clpe api example.
 
  1. must make & install tegra_vnet driver before using canlab clpe api example.
-    - "$ git clone tegra_vnet_vendor"
+    - "$ git clone https://github.com/canlab-co/tegra_vnet_vendor"
     - "$ cd tegra_vnet_vendor"
     - "$ sudo make"
  2. make canlab clpe api example.
