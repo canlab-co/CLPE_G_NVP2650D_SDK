@@ -14,8 +14,8 @@
   <depend>net-tools</depend>
   <depend>procps</depend>
   <depend>gstreamer1.0-plugins-base</depend>
+  <depend>libgstreamer-plugins-base1.0-dev</depend>
 
-  <build_depend>libgstreamer-plugins-base1.0-dev</build_depend>
   <build_depend>pkg-config</build_depend>
   <build_depend>ament_cmake</build_depend>
   <buildtool_depend>python3-colcon-common-extensions</buildtool_depend>
